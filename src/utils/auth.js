@@ -12,15 +12,16 @@ export const useAuth = () => {
 };
 
 function useProvideAuth() {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState({});
+  // type, data
 
-  const loginUser = () => {
-    setUser(true);
+  const loginUser = data => {
+    setUser(data);
   };
 
-  const logoutUser = () => {
-    setUser(false);
+  const logout = () => {
+    setUser({});
   };
 
-  return { user, loginUser, logoutUser };
+  return { user, loginUser, logout };
 }

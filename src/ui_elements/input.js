@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default ({ value = '', update = () => {}, name = '', label = 'label' }) => {
+export default ({ value = '', update = () => {}, name = '', label = 'label', type = 'text', isReq = true }) => {
   return (
     <Wrapper value={value}>
-      <input type="text" value={value} onChange={update} name={name} />
+      <input type={type} value={value} onChange={update} name={name} required={isReq} />
       <label htmlFor={name}>{label}</label>
       <span></span>
     </Wrapper>

@@ -2,14 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 import { FcReading } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
+import { signOut } from '../../utils/firebase';
 
-import LoginModel from './_login';
+import { useAuth } from '../../utils/auth';
+import LoginModel from '../home/_login';
 
 export default function Navbar() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const auth = useAuth();
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpen = async () => {
+    if (auth.user.type) {
+      await signOut();
+      auth.logout();
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -24,7 +32,7 @@ export default function Navbar() {
           Let's Quiz it <FcReading className="icon" />
         </Link>
         <button className="login" onClick={handleOpen}>
-          LOGIN
+          {auth.user.type ? `SIGN OUT` : `LOGIN`}
         </button>
       </div>
     </Wrapper>

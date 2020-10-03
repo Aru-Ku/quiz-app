@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { IoMdCloseCircle } from 'react-icons/io';
+import { toast } from 'react-toastify';
 import Backdrop from '../../ui_elements/backdrop';
-
 import Input from '../../ui_elements/input';
+import { googleUserLogin, adminUserLogin } from '../../utils/firebase';
+import { useAuth } from '../../utils/auth';
 
 export default function LoginModal({ open, close }) {
+  const auth = useAuth();
   const [admin, setAdmin] = useState({
-    id: '',
+    email: '',
     pwd: '',
+    code: '',
   });
 
   const updateAdminHandler = ({ target: { name, value } }) => {
@@ -29,6 +33,40 @@ export default function LoginModal({ open, close }) {
     Array.from(user).forEach(tc => tc.classList.add('active'));
   };
 
+  const userLogin = async () => {
+    const data = await googleUserLogin();
+    if (data === 'failed') {
+      toast.error('🙅🏻‍♂️ Login Failed');
+      return;
+    } else {
+      await auth.loginUser({
+        type: 'user',
+        data: { ...data },
+      });
+    }
+  };
+
+  const adminLogin = async e => {
+    const { email, pwd, code } = admin;
+    if (/\S+@\S+\.\S+/.test(email) && pwd !== '') {
+      e.preventDefault();
+      if (code === 'act') {
+        const data = await adminUserLogin(admin.email, admin.pwd);
+        if (data === 'User not found') {
+          toast.error('🧔🏻 User not Found');
+          return;
+        } else {
+          await auth.loginUser({
+            type: 'admin',
+            data: { ...data },
+          });
+        }
+      } else {
+        toast.error('🤔 Wrong Pass Code');
+      }
+    }
+  };
+
   return (
     <Wrapper className={`${open ? `show` : ``}`}>
       <Backdrop handler={close} />
@@ -43,15 +81,18 @@ export default function LoginModal({ open, close }) {
           ))}
         </div>
         <div className="tabContent active" id="User">
-          <button className="googleButton">
+          <button className="googleButton" onClick={userLogin}>
             <FcGoogle /> <span>Signin</span>
           </button>
         </div>
         <div className="tabContent" id="Admin">
           <form>
-            <Input value={admin.id} name="id" update={updateAdminHandler} label="ID" />
-            <Input value={admin.pwd} name="pwd" update={updateAdminHandler} label="Password" />
-            <button className="adminLogin">Login</button>
+            <Input type="email" value={admin.email} name="email" update={updateAdminHandler} label="Email ID" />
+            <Input type="password" value={admin.pwd} name="pwd" update={updateAdminHandler} label="Password" />
+            <Input value={admin.code} name="code" update={updateAdminHandler} label="Pass Code" />
+            <button className="adminLogin" onClick={adminLogin}>
+              Login
+            </button>
           </form>
         </div>
       </div>
