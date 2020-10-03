@@ -44,6 +44,9 @@ export const Wrapper = styled.nav`
   height: 50px;
   background-color: var(--bg);
   color: var(--font);
+  position: fixed;
+  top: 0;
+  box-shadow: 0px 1px 7px 0px var(--font);
 
   .container {
     width: 80%;
@@ -52,6 +55,10 @@ export const Wrapper = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.45s ease;
+    @media (max-width: 768px) {
+      width: 90%;
+    }
   }
 
   .logo {

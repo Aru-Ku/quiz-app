@@ -100,7 +100,7 @@ export default function LoginModal({ open, close }) {
   );
 }
 
-const Wrapper = styled.section`
+const Wrapper = styled.div`
   width: 100%;
   height: 0%;
   z-index: 490;
@@ -126,8 +126,8 @@ const Wrapper = styled.section`
     }
     display: none;
     z-index: 510;
-    width: 400px;
-    height: 50%;
+    width: 380px;
+    height: 350px;
     background-color: var(--bg);
     border-radius: 20px;
     box-shadow: 1px 3px 8px 0px #000000a8;
