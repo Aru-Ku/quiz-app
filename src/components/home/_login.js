@@ -7,9 +7,11 @@ import Backdrop from '../../ui_elements/backdrop';
 import Input from '../../ui_elements/input';
 import { googleUserLogin, adminUserLogin } from '../../utils/firebase';
 import { useAuth } from '../../utils/auth';
+import Loader from '../../ui_elements/loader';
 
 export default function LoginModal({ open, close }) {
   const auth = useAuth();
+  const [loading, setLoading] = useState(false);
   const [admin, setAdmin] = useState({
     email: '',
     pwd: '',
@@ -34,15 +36,19 @@ export default function LoginModal({ open, close }) {
   };
 
   const userLogin = async () => {
+    setLoading(true);
     const data = await googleUserLogin();
+
     if (data === 'failed') {
       toast.error('🙅🏻‍♂️ Login Failed');
+      setLoading(false);
       return;
     } else {
       await auth.loginUser({
         type: 'user',
         data: { ...data },
       });
+      setLoading(false);
     }
   };
 
@@ -50,19 +56,23 @@ export default function LoginModal({ open, close }) {
     const { email, pwd, code } = admin;
     if (/\S+@\S+\.\S+/.test(email) && pwd !== '') {
       e.preventDefault();
+      setLoading(true);
       if (code === 'act') {
         const data = await adminUserLogin(admin.email, admin.pwd);
         if (data === 'User not found') {
           toast.error('🧔🏻 User not Found');
+          setLoading(false);
           return;
         } else {
           await auth.loginUser({
             type: 'admin',
             data: { ...data },
           });
+          setLoading(false);
         }
       } else {
         toast.error('🤔 Wrong Pass Code');
+        setLoading(false);
       }
     }
   };
@@ -95,6 +105,7 @@ export default function LoginModal({ open, close }) {
             </button>
           </form>
         </div>
+        {loading ? <Loader size={30} /> : null}
       </div>
     </Wrapper>
   );

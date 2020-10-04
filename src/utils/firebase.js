@@ -43,3 +43,8 @@ export const signOut = async () =>
     .signOut()
     .then(() => 'sign out')
     .catch(() => 'sign out');
+
+// FireStore
+const db = firebase.firestore();
+// Collections
+export const topicsColl = db.collection('topics');

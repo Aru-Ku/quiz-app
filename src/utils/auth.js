@@ -12,14 +12,25 @@ export const useAuth = () => {
 };
 
 function useProvideAuth() {
-  const [user, setUser] = useState({});
+  const check = () => {
+    const type = localStorage.getItem('userType');
+    const data = localStorage.getItem('userDetails');
+    if (type && data) return { type, ...{ data: JSON.parse(data) } };
+  };
+  const [user, setUser] = useState(check() || {});
+
   // type, data
 
   const loginUser = data => {
+    localStorage.setItem('userType', data.type);
+    const details = JSON.stringify(data.data);
+    localStorage.setItem('userDetails', details);
     setUser(data);
   };
 
   const logout = () => {
+    localStorage.removeItem('userType');
+    localStorage.removeItem('userDetails');
     setUser({});
   };
 
