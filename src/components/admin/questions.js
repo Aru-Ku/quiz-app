@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from 'react-modal';
-import { GrAddCircle } from 'react-icons/gr';
-import { topicsColl } from '../../utils/firebase';
 import { toast } from 'react-toastify';
+import { GrAddCircle } from 'react-icons/gr';
+
+import { topicsColl } from '../../utils/firebase';
 import Input from '../../ui_elements/input';
 import Loader from '../../ui_elements/loader';
 
-export default ({ clsName, topicId }) => {
+export default ({ clsName, topicId, modelCls }) => {
   const [questions, setQuestions] = useState([]);
   const [modal, showModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,10 +27,18 @@ export default ({ clsName, topicId }) => {
     content: {
       top: '40%',
       left: '50%',
+      right: 0,
+      bottom: 0,
       transform: 'translate(-50%, -50%)',
       width: '500px',
-      height: '60%',
+      maxWidth: '92vw',
+      height: '70%',
+      maxHeight: '80%',
       padding: '0',
+      borderRadius: '10px',
+    },
+    overlay: {
+      backgroundColor: 'rgb(117 117 117 / 71%)',
     },
   };
 

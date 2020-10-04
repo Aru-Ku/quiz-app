@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import Navbar from '../common/_navbar';
 import styled from 'styled-components';
+
+import Navbar from '../common/_navbar';
 import Topics from './topics';
 import Questions from './questions';
 

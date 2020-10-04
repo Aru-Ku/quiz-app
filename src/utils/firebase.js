@@ -48,3 +48,4 @@ export const signOut = async () =>
 const db = firebase.firestore();
 // Collections
 export const topicsColl = db.collection('topics');
+export const userColl = db.collection('users');

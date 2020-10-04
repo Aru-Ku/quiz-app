@@ -21,6 +21,8 @@ function useProvideAuth() {
 
   // type, data
 
+  const getDetails = () => JSON.parse(localStorage.getItem('userDetails'));
+
   const loginUser = data => {
     localStorage.setItem('userType', data.type);
     const details = JSON.stringify(data.data);
@@ -34,5 +36,5 @@ function useProvideAuth() {
     setUser({});
   };
 
-  return { user, loginUser, logout };
+  return { user, loginUser, logout, getDetails };
 }

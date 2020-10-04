@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 // COMPONENTS
 import Home from './components/home';
-import User from './components/user';
 import Admin from './components/admin';
-
+import Navbar from './components/common/_navbar';
+import FirstPage from './components/user';
+import TakeQuiz from './components/user/takeQuiz';
 // UTILS
 import { useAuth } from './utils/auth';
-// import theme from "./utils/theme";
 
 function App() {
   const auth = useAuth();
   return (
     <Switch>
       {auth.user.type === 'user' ? (
-        <Route path="/" component={User} />
+        <Fragment>
+          <Navbar />
+          <Route exact path="/topic/:id" component={TakeQuiz} />
+          <Route exact path="/" component={FirstPage} />
+        </Fragment>
       ) : auth.user.type === 'admin' ? (
         <Route path="/" component={Admin} />
       ) : (

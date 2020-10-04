@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiAddToQueue } from 'react-icons/bi';
 import { GoLinkExternal } from 'react-icons/go';
-import Loader from '../../ui_elements/loader';
 
+import Loader from '../../ui_elements/loader';
 import { topicsColl } from '../../utils/firebase';
 
 export default ({ clsName, selectId }) => {

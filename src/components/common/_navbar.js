@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { FcReading } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
-import { signOut } from '../../utils/firebase';
 
+import { signOut } from '../../utils/firebase';
 import { useAuth } from '../../utils/auth';
 import LoginModel from '../home/_login';
 
-export default function Navbar() {
+export default () => {
   const [open, setOpen] = React.useState(false);
   const auth = useAuth();
 
@@ -26,7 +26,7 @@ export default function Navbar() {
 
   return (
     <Wrapper>
-      <LoginModel open={open} close={handleClose} />
+      {auth.user.type ? null : <LoginModel open={open} close={handleClose} />}
       <div className="container">
         <Link className="logo" to="/">
           Let's Quiz it <FcReading className="icon" />
@@ -37,7 +37,7 @@ export default function Navbar() {
       </div>
     </Wrapper>
   );
-}
+};
 
 export const Wrapper = styled.nav`
   width: 100%;

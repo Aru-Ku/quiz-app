@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { toast } from 'react-toastify';
+
 import Backdrop from '../../ui_elements/backdrop';
 import Input from '../../ui_elements/input';
 import { googleUserLogin, adminUserLogin } from '../../utils/firebase';
 import { useAuth } from '../../utils/auth';
 import Loader from '../../ui_elements/loader';
 
-export default function LoginModal({ open, close }) {
+export default ({ open, close }) => {
   const auth = useAuth();
   const [loading, setLoading] = useState(false);
   const [admin, setAdmin] = useState({
@@ -48,7 +49,6 @@ export default function LoginModal({ open, close }) {
         type: 'user',
         data: { ...data },
       });
-      setLoading(false);
     }
   };
 
@@ -68,7 +68,6 @@ export default function LoginModal({ open, close }) {
             type: 'admin',
             data: { ...data },
           });
-          setLoading(false);
         }
       } else {
         toast.error('🤔 Wrong Pass Code');
@@ -109,7 +108,7 @@ export default function LoginModal({ open, close }) {
       </div>
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.div`
   width: 100%;
