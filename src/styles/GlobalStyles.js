@@ -7,6 +7,7 @@ export const GlobalStyle = createGlobalStyle`
 		--font: #000000;
 	}
 
+
 	html,
 	body {
 		margin: 0;
